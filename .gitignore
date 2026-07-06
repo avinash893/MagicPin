@@ -1,0 +1,12 @@
+# Exclude challenge zip and other binary files
+magicpin-ai-challenge.zip
+*.zip
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local environments / API key files
+.env
+venv/
+.venv/
