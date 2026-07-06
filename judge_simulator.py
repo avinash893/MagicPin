@@ -20,17 +20,19 @@ Author: magicpin AI Challenge Team
 # ██████  CONFIGURATION - EDIT THIS SECTION ██████
 # =============================================================================
 
+import os
+
 # Your bot's URL (where your bot is running)
-BOT_URL = "http://localhost:8080"
+BOT_URL = "http://127.0.0.1:8080"
 
 # Choose your LLM provider: "openai", "anthropic", "gemini", "deepseek", "groq", "ollama", "openrouter"
-LLM_PROVIDER = "openai"
+LLM_PROVIDER = "gemini" if os.environ.get("PS_GEMINIAPIKEY") else "openai"
 
 # Your API key (paste your key here)
-LLM_API_KEY = ""  # <-- PUT YOUR API KEY HERE
+LLM_API_KEY = os.environ.get("PS_GEMINIAPIKEY") or os.environ.get("PS_OPENAIAPIKEY") or ""
 
 # Model to use (leave empty for default, or specify like "gpt-4o", "claude-3-5-sonnet-20241022", etc.)
-LLM_MODEL = ""  # <-- Optional: specify model or leave empty for default
+LLM_MODEL = "gemini-3.1-flash-lite"  # <-- Optional: specify model or leave empty for default
 
 # For Ollama only: local server URL
 OLLAMA_URL = "http://localhost:11434"
@@ -691,7 +693,7 @@ class JudgeSimulator:
 
         for i in range(1, 5):
             print_info(f"Turn {i}: Sending auto-reply...")
-            data, err, _ = self.client.reply(f"conv_auto_{i}", mid, auto_msg, i + 1)
+            data, err, _ = self.client.reply("conv_auto", mid, auto_msg, i + 1)
 
             if err:
                 print_fail(f"Error: {err}")
